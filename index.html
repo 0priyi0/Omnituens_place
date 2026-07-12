@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #05070a;
+            --bg-color: #030508;
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
             --accent-glow: #38bdf8;
@@ -27,8 +27,18 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            background-image: 
-                radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.05) 0%, transparent 60%);
+            position: relative;
+        }
+
+        /* Interactive Telemetry Canvas */
+        #telemetry-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
         }
 
         .wrapper {
@@ -37,13 +47,17 @@
             padding: 40px;
             z-index: 2;
             position: relative;
+            background: rgba(3, 5, 8, 0.6);
+            backdrop-filter: blur(8px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
         }
 
         /* Abstract glowing cybersecurity node */
         .cyber-node {
             width: 24px;
             height: 24px;
-            margin: 0 auto 40px auto;
+            margin: 0 auto 32px auto;
             position: relative;
         }
 
@@ -106,7 +120,7 @@
             font-weight: 300;
             color: var(--text-secondary);
             line-height: 1.6;
-            margin: 0 auto 48px auto;
+            margin: 0 auto 40px auto;
             max-width: 480px;
         }
 
@@ -126,23 +140,119 @@
 
         .footer {
             font-size: 0.85rem;
-            color: rgba(148, 163, 184, 0.4);
+            color: rgba(148, 163, 184, 0.3);
             letter-spacing: 0.05em;
-            margin-top: 60px;
+            margin-top: 48px;
         }
     </style>
 </head>
 <body>
+    <canvas id="telemetry-canvas"></canvas>
+
     <div class="wrapper">
         <div class="cyber-node"></div>
         <div class="badge">Stealth Protocol</div>
         <h1>Omnituens Technologies</h1>
         <p class="description">
-            Delivering modern, next-generation cybersecurity solutions integrating advanced cognitive AI architectures.
+            Securing the future of AI. We deliver next-generation cybersecurity built to protect neural networks and advanced models.
         </p>
         <div class="footer">
             &copy; 2026 Omnituens Technologies. All rights reserved.
         </div>
     </div>
+
+    <script>
+        const canvas = document.getElementById('telemetry-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        const particles = [];
+        const properties = {
+            bgColor: '#030508',
+            particleColor: 'rgba(56, 189, 248, 0.3)',
+            lineColor: 'rgba(56, 189, 248, 0.07)',
+            particleRadius: 1.5,
+            particleCount: 80,
+            maxVelocity: 0.4,
+            lineLength: 150
+        };
+
+        window.onresize = function() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        };
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.velocityX = (Math.random() * (properties.maxVelocity * 2)) - properties.maxVelocity;
+                this.velocityY = (Math.random() * (properties.maxVelocity * 2)) - properties.maxVelocity;
+            }
+
+            position() {
+                if (this.x + this.velocityX > width || this.x + this.velocityX < 0) {
+                    this.velocityX = -this.velocityX;
+                }
+                if (this.y + this.velocityY > height || this.y + this.velocityY < 0) {
+                    this.velocityY = -this.velocityY;
+                }
+                this.x += this.velocityX;
+                this.y += this.velocityY;
+            }
+
+            reDraw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, properties.particleRadius, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.fillStyle = properties.particleColor;
+                ctx.fill();
+            }
+        }
+
+        function drawLines() {
+            let x1, y1, x2, y2, length, opacity;
+            for (let i in particles) {
+                for (let j in particles) {
+                    x1 = particles[i].x;
+                    y1 = particles[i].y;
+                    x2 = particles[j].x;
+                    y2 = particles[j].y;
+                    length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+                    if (length < properties.lineLength) {
+                        opacity = 1 - (length / properties.lineLength);
+                        ctx.lineWidth = '0.5';
+                        ctx.strokeStyle = `rgba(56, 189, 248, ${opacity * 0.12})`;
+                        ctx.beginPath();
+                        ctx.moveTo(x1, y1);
+                        ctx.lineTo(x2, y2);
+                        ctx.closePath();
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function init() {
+            for (let i = 0; i < properties.particleCount; i++) {
+                particles.push(new Particle());
+            }
+            loop();
+        }
+
+        function loop() {
+            ctx.clearRect(0, 0, width, height);
+            for (let i in particles) {
+                particles[i].position();
+                particles[i].reDraw();
+            }
+            drawLines();
+            requestAnimationFrame(loop);
+        }
+
+        init();
+    </script>
 </body>
 </html>
