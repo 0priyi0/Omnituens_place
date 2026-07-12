@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omnituens Technologies</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #05070a;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-glow: #38bdf8;
+            --border-color: rgba(56, 189, 248, 0.15);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Space Grotesk', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.05) 0%, transparent 60%);
+        }
+
+        .wrapper {
+            text-align: center;
+            max-width: 600px;
+            padding: 40px;
+            z-index: 2;
+            position: relative;
+        }
+
+        /* Abstract glowing cybersecurity node */
+        .cyber-node {
+            width: 24px;
+            height: 24px;
+            margin: 0 auto 40px auto;
+            position: relative;
+        }
+
+        .cyber-node::before, .cyber-node::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            border: 2px solid var(--accent-glow);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+        }
+
+        .cyber-node::before {
+            animation: pulse-ring 2.5s infinite cubic-bezier(0.215, 0.610, 0.355, 1);
+        }
+
+        .cyber-node::after {
+            animation: pulse-core 2.5s infinite cubic-bezier(0.215, 0.610, 0.355, 1);
+            background-color: var(--accent-glow);
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+            80%, 100% {
+                transform: scale(2.2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse-core {
+            0% {
+                transform: scale(0.8);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(0.8);
+            }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            margin: 0 0 16px 0;
+            background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .description {
+            font-size: 1.15rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0 auto 48px auto;
+            max-width: 480px;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent-glow);
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 100px;
+            background-color: rgba(56, 189, 248, 0.03);
+            margin-bottom: 24px;
+        }
+
+        .footer {
+            font-size: 0.85rem;
+            color: rgba(148, 163, 184, 0.4);
+            letter-spacing: 0.05em;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="cyber-node"></div>
+        <div class="badge">Stealth Protocol</div>
+        <h1>Omnituens Technologies</h1>
+        <p class="description">
+            Delivering modern, next-generation cybersecurity solutions integrating advanced cognitive AI architectures.
+        </p>
+        <div class="footer">
+            &copy; 2026 Omnituens Technologies. All rights reserved.
+        </div>
+    </div>
+</body>
+</html>
